@@ -103,6 +103,11 @@ public class LocatorsConcept5a {
 		//=> having the By locators in elementUtility + getting the driver from BrowserUtility
 		//the return of launchBrowser() is driver
 		//creating a new Test class to show case this process:OpenCartLoginTest
+		
+		//3 Major approaches:*******
+		//string --> By -->webelement -- action---2nd
+		//By -- webelement --action **********IS THE BEST ONE***********first preference
+		//webelement -- action---least preference
 
 	}
 
