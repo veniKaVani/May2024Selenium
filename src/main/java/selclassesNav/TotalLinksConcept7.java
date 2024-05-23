@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.w3c.dom.Text;
 
 public class TotalLinksConcept7 {
 
@@ -20,15 +21,35 @@ public class TotalLinksConcept7 {
 		driver.get("https://naveenautomationlabs.com/opencart/index.php?route=account/register");
 		
 		//find out all the elements -->FEs
+		//LIST: is order based and parent interface of ArrayList--comes from java.util
 		List<WebElement> allLinks = driver.findElements(By.tagName("a"));
-//		ArrayList<String>allLinksTxt=new <String>ArrayList();
 		System.out.println(allLinks.size());
 		
 		for(int i=0;i<allLinks.size();i++) {
 			String txt = allLinks.get(i).getText();
-	//		allLinksTxt.add(txt);
+			
+			if(txt.length()!=0) {
+				System.out.println(txt);
+			}
+			
 		}
- //      System.out.println(allLinksTxt);
+        System.out.println("********");
+        
+        for(WebElement e:allLinks) {
+        	String text = e.getText();
+        	if(text.length()!=0) {
+        		System.out.println(text);
+        	}
+        }
+        //total text fields on the Reg page:
+        List<WebElement> allTxtFields = driver.findElements(By.className("form-control"));
+        
+        System.out.println(allTxtFields.size());
+        
+        for(WebElement e:allTxtFields) {
+        	e.sendKeys("testing");
+        }
+        driver.close();
 	}
 
 }

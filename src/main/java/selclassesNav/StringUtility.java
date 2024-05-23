@@ -6,7 +6,7 @@ public class StringUtility {
 
 	private StringUtility() {};
 	
-	public String getRandomEmail() {
+	public static String getRandomEmail() {
 		return "BinAuto"+System.currentTimeMillis()+"@appName.com";
 		
 		

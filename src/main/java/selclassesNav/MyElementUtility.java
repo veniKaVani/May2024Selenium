@@ -1,5 +1,9 @@
 package selclassesNav;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -74,14 +78,47 @@ public class MyElementUtility {
 		}
 		return locator;
 	}
-
+   //we created a wrapper method on top of sel-findElement()-with proper Exception Handling as well
+	//in future if the ele is not found when it comes inside the catch block--we might need to write
+	//some wait mechanism as well-to say pls wait for some more time until the element might appear
 	public static WebElement getElement(By locator) {
-		return driver.findElement(locator);
+		WebElement element = null;
+		
+		try {
+		element=driver.findElement(locator);
+		}catch(NoSuchElementException e) {
+			System.out.println("Element is not found on the page");
+			e.printStackTrace();
+			return null;
+		}
+		return element;
 	}
 
 	// overloading the getElement() to take String Type parameter
 	public static WebElement getElement(String locatorType, String locatorValue) {
 		return driver.findElement(getBy(locatorType, locatorValue));
+	}
+	
+	//still need to create the getElements(By locator, String value){}
+	public List<WebElement> getElements(By locator) {
+		return driver.findElements(locator);
+	}
+	
+	public int getElementsCount(By locator) {
+		return getElements(locator).size();
+	}
+	public ArrayList<String> getElementsTextList(By locator) {
+		List<WebElement> eleList = getElements(locator);
+		ArrayList<String> eleTxtList = new ArrayList<String>();
+		
+		for(WebElement e:eleList) {
+			String text = e.getText();
+			
+			if(text.length()!=0) {
+				eleTxtList.add(text);
+			}
+		}
+		return eleTxtList;
 	}
 
 	public static void doSendKeys(By locator, String value) {
@@ -99,6 +136,25 @@ public class MyElementUtility {
 
 	public String doGetElementText(By locator) {
 		return getElement(locator).getText();
+	}
+	public String doGetEleAttribute(By locator, String attriName) {
+		return getElement(locator).getAttribute(attriName);
+	}
+	public boolean isElementDisplayed(By locator) {
+		return getElement(locator).isDisplayed();
+	}
+	public  boolean isElementExist(By locator) {//MOVING IT TO eLEuTIL better than isDisplayed();
+		   if(getElements(locator).size()==1) {
+			 return true;  
+		   }
+		   return false;
+		}
+	//the above generic fn for more no of elements than 1:
+	public boolean multipleElementsExist(By locator) {
+		if(getElements(locator).size()>0) {
+			return true;
+		}
+		return false;
 	}
 
 }
