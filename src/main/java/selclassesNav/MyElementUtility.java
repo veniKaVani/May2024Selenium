@@ -7,6 +7,9 @@ import java.util.NoSuchElementException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+import allexceptions.ElementException;
 
 public class MyElementUtility {
 	private static WebDriver driver; // no initialization yet and its default value is null
@@ -78,43 +81,55 @@ public class MyElementUtility {
 		}
 		return locator;
 	}
-   //we created a wrapper method on top of sel-findElement()-with proper Exception Handling as well
-	//in future if the ele is not found when it comes inside the catch block--we might need to write
-	//some wait mechanism as well-to say pls wait for some more time until the element might appear
+
+	// we created a wrapper method on top of sel-findElement()-with proper Exception
+	// Handling as well
+	// in future if the ele is not found when it comes inside the catch block--we
+	// might need to write
+	// some wait mechanism as well-to say pls wait for some more time until the
+	// element might appear
 	public static WebElement getElement(By locator) {
 		WebElement element = null;
-		
+
 		try {
-		element=driver.findElement(locator);
-		}catch(NoSuchElementException e) {
+			element = driver.findElement(locator);
+		} catch (NoSuchElementException e) {
 			System.out.println("Element is not found on the page");
 			e.printStackTrace();
 			return null;
 		}
 		return element;
 	}
+	private void nullBlankCheck(String value) {
+		 //if the user passes a null value for text-need to throw custom exception:
+		   //make this private so not accessible to everyone
+		 		if(value==null ||value.length()==0) {
+		 			throw new ElementException("VALUE TEXT CANNOT BE NULL!...");
+		 		}
+	   }
 
 	// overloading the getElement() to take String Type parameter
 	public static WebElement getElement(String locatorType, String locatorValue) {
 		return driver.findElement(getBy(locatorType, locatorValue));
 	}
-	
-	//still need to create the getElements(By locator, String value){}
+
+	// still need to create the getElements(By locator, String value){}
 	public List<WebElement> getElements(By locator) {
 		return driver.findElements(locator);
 	}
-	
+
 	public int getElementsCount(By locator) {
 		return getElements(locator).size();
 	}
+
 	public ArrayList<String> getElementsTextList(By locator) {
 		List<WebElement> eleList = getElements(locator);
 		ArrayList<String> eleTxtList = new ArrayList<String>();
-		
-		for(WebElement e:eleList) {
+
+		for (WebElement e : eleList) {
 			String text = e.getText();
-			
-			if(text.length()!=0) {
+
+			if (text.length() != 0) {
 				eleTxtList.add(text);
 			}
 		}
@@ -137,24 +152,136 @@ public class MyElementUtility {
 	public String doGetElementText(By locator) {
 		return getElement(locator).getText();
 	}
+
 	public String doGetEleAttribute(By locator, String attriName) {
 		return getElement(locator).getAttribute(attriName);
 	}
+
 	public boolean isElementDisplayed(By locator) {
 		return getElement(locator).isDisplayed();
 	}
-	public  boolean isElementExist(By locator) {//MOVING IT TO eLEuTIL better than isDisplayed();
-		   if(getElements(locator).size()==1) {
-			 return true;  
-		   }
-		   return false;
-		}
-	//the above generic fn for more no of elements than 1:
-	public boolean multipleElementsExist(By locator) {
-		if(getElements(locator).size()>0) {
+
+	public boolean isElementExist(By locator) {// MOVING IT TO eLEuTIL better than isDisplayed();
+		if (getElements(locator).size() == 1) {
 			return true;
 		}
 		return false;
 	}
 
+	// the above generic fn for more no of elements than 1:
+	public boolean multipleElementsExist(By locator) {
+		if (getElements(locator).size() > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	// **************SELECT BASED DR DOWN UTILS******************
+	public void doSelectByIndex(By locator, int index) {
+		Select select = new Select(getElement(locator));
+		select.selectByIndex(index);
+	}
+
+	public void doSelectByVisibleText(By locator, String value) {
+		// if the user passes a null value for text-need to throw custom exception:
+		nullBlankCheck(value);
+
+		Select select = new Select(getElement(locator));
+		select.selectByVisibleText(value);
+	}
+
+	public void doSelectByValueAttri(By locator, String value) {
+		// if the user passes a null value for text-need to throw custom exception:
+		nullBlankCheck(value);
+
+		Select select = new Select(getElement(locator));
+		select.selectByValue(value);
+	}
+	public List<String> getDropDownOptionsTextList(By locator) {
+		List<WebElement> optionsList = getDropDownOptionsList(locator);
+		List<String> txtList = new ArrayList<String>();
+		
+		for(WebElement e:optionsList) {
+			String optionText = e.getText();
+			txtList.add(optionText);
+		}
+		return txtList;
+	}
+	public List<WebElement> getDropDownOptionsList(By locator) {
+		
+		Select select = new Select(getElement(locator));
+		return select.getOptions();
+	}
+	
+	public int getDropDownValuesCount(By locator) {
+		return getDropDownOptionsList(locator).size();
+	}
+	//creating a utility to select from Dr down without using the 3 fns selectByVisibleTxt(),
+	//selectByIndex(), selectByValueAttri()
+	public void doSelectDropDownValue(By locator, String value) {
+		
+		List<WebElement> optionsList = getDropDownOptionsList(locator);
+		System.out.println(optionsList.size());
+
+		for (WebElement e : optionsList) {//time complexity one single for loop:O(n)
+			String text = e.getText();
+			System.out.println(text);
+			if (text.equals("India")) {
+				e.click();
+				break;
+			}
+
+		}
+		
+	}
+	public void printSelectDropDownList(By locator) {
+		List<WebElement> optionsList = getDropDownOptionsList(locator);
+		System.out.println(optionsList.size());
+
+		for (WebElement e : optionsList) {//time complexity one single for loop:O(n)
+			String text = e.getText();
+			System.out.println(text);
+	}
+
+}
+   //pasting the generic fn of session 9c:without select class selecting the dr down values
+	public void doSelectValueFromDrDown(By locator, String value) {
+		List<WebElement> optionsList = getElements(locator);
+
+		System.out.println(optionsList.size());
+
+		for (WebElement e : optionsList) {
+			String text = e.getText();
+			if (text.equals("India")) {
+				e.click();
+				break;
+			}
+		}
+	}
+	//generic fn to search Google and printing the suggestions on console:
+	public void doSearchGoogle(By searchlocator, By searchSuggestions,String searchKey, String value) throws InterruptedException {
+
+//		driver.findElement(searchlocator).sendKeys(searchKey);--to be removed
+		
+		doSendKeys(searchlocator, searchKey);
+
+		Thread.sleep(3000);
+
+//		List<WebElement> suggsList = driver
+//				.findElements(searchSuggestions);---To be removed
+		
+		List<WebElement> suggsList = getElements(searchSuggestions);
+
+		System.out.println(suggsList.size());
+
+		for (WebElement e : suggsList) {
+			String text = e.getText();
+			System.out.println(text);
+
+			if (text.contains(value)) {
+				e.click();
+				break;
+			}
+		}
+}
 }
