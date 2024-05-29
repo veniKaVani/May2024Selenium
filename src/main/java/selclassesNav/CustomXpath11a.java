@@ -61,6 +61,22 @@ public class CustomXpath11a {
 		 *   can also write last()- 3 ...etc
 		 *    
 		 *   HW: write a program to check to see the Help is the last element on footer link 
+		 *   
+		 *   xii) //*---IS IT A RIGHT XPATH?? YES
+		 *   ===>give me all the elements on the DOM--it starts from the begining--it will go
+		 *   to each and every element--opens up every thing on the DOM
+		 *   
+		 *   //*[@id] 
+		 *   ==> give me all the elements where @id is available
+		 *   
+		 *   //*[@class='form-control']
+		 *   //input[@class='form-control']
+		 *   WHICH XPATH IS FASTER AMONGST THE ABOVE TWO XPATHS??
+		 *   
+		 *   //input[@class='form-control']  is faster since it goes direct to the element
+		 *   and does not traverse to each individual element as * is not present
+		 *   Avoid the xpath with asterisk(*) as it takes much time since it traverses to each
+		 *   and every element
 		 */
 
 	}
