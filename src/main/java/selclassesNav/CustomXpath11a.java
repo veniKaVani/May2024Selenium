@@ -77,6 +77,8 @@ public class CustomXpath11a {
 		 *   and does not traverse to each individual element as * is not present
 		 *   Avoid the xpath with asterisk(*) as it takes much time since it traverses to each
 		 *   and every element
+		 *   
+		 *   //label[normalize-space()='No']
 		 */
 
 	}

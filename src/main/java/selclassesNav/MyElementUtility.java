@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 import allexceptions.ElementException;
@@ -100,13 +101,14 @@ public class MyElementUtility {
 		}
 		return element;
 	}
+
 	private void nullBlankCheck(String value) {
-		 //if the user passes a null value for text-need to throw custom exception:
-		   //make this private so not accessible to everyone
-		 		if(value==null ||value.length()==0) {
-		 			throw new ElementException("VALUE TEXT CANNOT BE NULL!...");
-		 		}
-	   }
+		// if the user passes a null value for text-need to throw custom exception:
+		// make this private so not accessible to everyone
+		if (value == null || value.length() == 0) {
+			throw new ElementException("VALUE TEXT CANNOT BE NULL!...");
+		}
+	}
 
 	// overloading the getElement() to take String Type parameter
 	public static WebElement getElement(String locatorType, String locatorValue) {
@@ -197,33 +199,37 @@ public class MyElementUtility {
 		Select select = new Select(getElement(locator));
 		select.selectByValue(value);
 	}
+
 	public List<String> getDropDownOptionsTextList(By locator) {
 		List<WebElement> optionsList = getDropDownOptionsList(locator);
 		List<String> txtList = new ArrayList<String>();
-		
-		for(WebElement e:optionsList) {
+
+		for (WebElement e : optionsList) {
 			String optionText = e.getText();
 			txtList.add(optionText);
 		}
 		return txtList;
 	}
+
 	public List<WebElement> getDropDownOptionsList(By locator) {
-		
+
 		Select select = new Select(getElement(locator));
 		return select.getOptions();
 	}
-	
+
 	public int getDropDownValuesCount(By locator) {
 		return getDropDownOptionsList(locator).size();
 	}
-	//creating a utility to select from Dr down without using the 3 fns selectByVisibleTxt(),
-	//selectByIndex(), selectByValueAttri()
+
+	// creating a utility to select from Dr down without using the 3 fns
+	// selectByVisibleTxt(),
+	// selectByIndex(), selectByValueAttri()
 	public void doSelectDropDownValue(By locator, String value) {
-		
+
 		List<WebElement> optionsList = getDropDownOptionsList(locator);
 		System.out.println(optionsList.size());
 
-		for (WebElement e : optionsList) {//time complexity one single for loop:O(n)
+		for (WebElement e : optionsList) {// time complexity one single for loop:O(n)
 			String text = e.getText();
 			System.out.println(text);
 			if (text.equals("India")) {
@@ -232,19 +238,22 @@ public class MyElementUtility {
 			}
 
 		}
-		
+
 	}
+
 	public void printSelectDropDownList(By locator) {
 		List<WebElement> optionsList = getDropDownOptionsList(locator);
 		System.out.println(optionsList.size());
 
-		for (WebElement e : optionsList) {//time complexity one single for loop:O(n)
+		for (WebElement e : optionsList) {// time complexity one single for loop:O(n)
 			String text = e.getText();
 			System.out.println(text);
+		}
+
 	}
 
-}
-   //pasting the generic fn of session 9c:without select class selecting the dr down values
+	// pasting the generic fn of session 9c:without select class selecting the dr
+	// down values
 	public void doSelectValueFromDrDown(By locator, String value) {
 		List<WebElement> optionsList = getElements(locator);
 
@@ -258,18 +267,20 @@ public class MyElementUtility {
 			}
 		}
 	}
-	//generic fn to search Google and printing the suggestions on console:
-	public void doSearchGoogle(By searchlocator, By searchSuggestions,String searchKey, String value) throws InterruptedException {
+
+	// generic fn to search Google and printing the suggestions on console:
+	public void doSearchGoogle(By searchlocator, By searchSuggestions, String searchKey, String value)
+			throws InterruptedException {
 
 //		driver.findElement(searchlocator).sendKeys(searchKey);--to be removed
-		
+
 		doSendKeys(searchlocator, searchKey);
 
 		Thread.sleep(3000);
 
 //		List<WebElement> suggsList = driver
 //				.findElements(searchSuggestions);---To be removed
-		
+
 		List<WebElement> suggsList = getElements(searchSuggestions);
 
 		System.out.println(suggsList.size());
@@ -283,5 +294,48 @@ public class MyElementUtility {
 				break;
 			}
 		}
-}
+	}
+
+	// creating a generic fn for this mouseMovement-to handle menu-submenu and put
+	// it in ele utility:
+	public void handleMenuSubMenu(By parentMenuLocator, By SubMenuLocator) throws InterruptedException {
+		Actions act = new Actions(driver);
+		// targetEle = getElement(parentMenuLocator)
+		act.moveToElement(getElement(parentMenuLocator)).perform();// since single action
+		Thread.sleep(1500);
+
+		// getElement(SubMenuLocator).click();
+		doClick(SubMenuLocator);
+	}
+
+	// creating a generic fn for this mouseMovement-to handle menu-submenu and put
+	// it in ele utility:
+	public void handleMenuSubLevel4Menu(By level1Loc, By level2Loc, By level3Loc, By level4Loc)
+			throws InterruptedException {
+
+		// getElement(level1Loc).click();
+		doClick(level1Loc);
+		Actions act = new Actions(driver);
+		Thread.sleep(1500);
+
+		act.moveToElement(getElement(level2Loc)).perform();// since single action
+		Thread.sleep(1500);
+
+		act.moveToElement(getElement(level3Loc)).perform();
+		Thread.sleep(1500);
+
+		// getElement(level4Loc).click();
+		doClick(level4Loc);
+	}
+	//***************Actions click and sendKeys15**********************//
+	public  void doActionsClick(By locator) {
+		Actions act = new Actions(driver);
+		act.click(driver.findElement(locator)).perform();
+	}
+	public  void doActionsSendKeys(By locator, String value) {
+		Actions act = new Actions(driver);
+		act.sendKeys(getElement(locator), value).perform();
+	}
+
+
 }
