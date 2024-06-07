@@ -26,6 +26,9 @@ public class WindowSize16e {
 		 * 
 		 * getLocation()--gives the exact location of the ele from the top left hand side 
 		 * on the page
+		 * 
+		 * how to freeze the entire application in debugging mode??? faq by students
+		 * GOING TO BE ANSWERED IN THE NEXT CLASS
 		 */
 		WebDriver driver = new ChromeDriver();
 		// driver.manage().window().maximize();
