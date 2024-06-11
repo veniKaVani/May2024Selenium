@@ -10,6 +10,12 @@ public class JavaScriptExecutorConcept20a {
 
 	public static void main(String[] args) {
 		/*
+		 * Java script: is just back door entry since it does the job from the DOM
+		 * ---is not the simulation of a users Actions
+		 * ---user always acts directly on the elements on the page
+		 * ---using the actions class on the webElements is the user simulation of using the app
+		 * W3c recommends actions scrolling rather than JSE scrolling
+		 * 
 		 * browser: understands only the lang JS
 		 * 
 		 * JSE: lot of good things could be solved with the help of JavaScriptExecutor
@@ -117,13 +123,15 @@ public class JavaScriptExecutorConcept20a {
 //			System.out.println("PASS");
 //		}
 		
-		WebElement header = driver.findElement(By.xpath("//h3[text()='Companies & Contacts']"));
+//		WebElement header = driver.findElement(By.xpath("//h3[text()='Companies & Contacts']"));
 //		jsu.scrollIntoView(header);
 		
 //		jsu.zoomChromeEdgeSafari("50");
 //		jsu.zoomChromeEdgeSafari("400");
 		
-		jsu.drawBorder(header);
+//		jsu.drawBorder(header);
+		
+		
 
 	}
 
