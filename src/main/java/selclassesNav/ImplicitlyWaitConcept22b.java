@@ -74,7 +74,7 @@ public class ImplicitlyWaitConcept22b {
 	//not applicable for non-web elements:==> cannot be applied for alerts, titles, urls, browser
 	//windows
 	
-	//avoid imp wait in ur real time appns
+	//avoid imp wait in ur real time appns/frame works as well
 	
 	
 	

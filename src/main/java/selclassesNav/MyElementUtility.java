@@ -1,5 +1,6 @@
 package selclassesNav;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -8,7 +9,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import allexceptions.ElementException;
 
@@ -102,7 +105,7 @@ public class MyElementUtility {
 		return element;
 	}
 
-	private void nullBlankCheck(String value) {
+	private static void nullBlankCheck(String value) {
 		// if the user passes a null value for text-need to throw custom exception:
 		// make this private so not accessible to everyone
 		if (value == null || value.length() == 0) {
@@ -139,7 +142,13 @@ public class MyElementUtility {
 	}
 
 	public static void doSendKeys(By locator, String value) {
+		nullBlankCheck(value);
 		getElement(locator).sendKeys(value);
+	}
+	//overloading the doSendKeys() to apply explicit wait mechanism --in case a user wants to apply wait
+	public static void doSendKeys(By locator,String value, int timeOut) {
+		nullBlankCheck(value);
+		waitForElementVisible(locator, timeOut).sendKeys(value);
 	}
 
 	// overloading the doSendKeys() to take the getElement(2param) method:
@@ -149,6 +158,10 @@ public class MyElementUtility {
 
 	public void doClick(By locator) {
 		getElement(locator).click();
+	}
+	//overloading doClick() to apply explicit wait until the element is visible
+	public void doClick(By locator, int timeOut) {
+		waitForElementVisible(locator, timeOut).click();
 	}
 
 	public String doGetElementText(By locator) {
@@ -336,6 +349,32 @@ public class MyElementUtility {
 		Actions act = new Actions(driver);
 		act.sendKeys(getElement(locator), value).perform();
 	}
+	
+	//**********************Wait Utils*******************************//
+	 /**
+     * 
+	 * An expectation for checking that an element
+	 * is present on the DOM of the page This does not necessarily mean that the
+	 * element is visible
+     * @param locator
+     * @param timeOut
+     * @return
+     */
+	public static WebElement waitForElementPresence(By locator, int timeOut) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+		return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+	}
+	/**
+	 * An expectation for checking that an element is present on the DOM of a page
+	 * and is visible Visibility means that the element is not only displayed but
+	 * also has a height and width that is greater than 0
+	 * @param locator
+	 * @param timeout
+	 * @return
+	 */
 
-
+	public static WebElement waitForElementVisible(By locator, int timeOut) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+	}
 }
