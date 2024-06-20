@@ -123,7 +123,12 @@ public class CSSselector14a {
 		 *  12.shadow:                no                        yes
 		 *  13.Pseudo:                no                        yes
 		 *  14.last:                  yes                       yes
-		 *  15.first:                 no                        yes                                         
+		 *  15.first:                 no                        yes
+		 *      
+		 *  inspect subscribe yes no btns to see
+		 *   " yes"
+		 *   " No"
+		 *   //label[normalize-space()='yes']                                    
 		 *  
 		 */
 		int mand_fields_count = driver.findElements(By.cssSelector("input#username,input#password,button#loginBtn,input#remember")).size();
