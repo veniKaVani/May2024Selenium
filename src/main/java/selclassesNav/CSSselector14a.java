@@ -128,7 +128,7 @@ public class CSSselector14a {
 		 *  inspect subscribe yes no btns to see
 		 *   " yes"
 		 *   " No"
-		 *   //label[normalize-space()='yes']                                    
+		 *   //label[normalize-space()='No']                                    
 		 *  
 		 */
 		int mand_fields_count = driver.findElements(By.cssSelector("input#username,input#password,button#loginBtn,input#remember")).size();

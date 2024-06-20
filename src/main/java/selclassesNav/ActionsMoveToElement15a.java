@@ -8,7 +8,8 @@ import org.openqa.selenium.interactions.Actions;
 
 public class ActionsMoveToElement15a {
 	/*
-	 * userActions: mouseMovement=>moveToElement, keyboardActions, dragNdrop, rightClick, menuSubmenuHandling
+	 * userActions: 
+	 *  mouseMovement=>moveToElement, keyboardActions, dragNdrop, rightClick, menuSubmenuHandling
 	 * clickNsendKeys,
 	 * All the above Actions: can be solved with the help of Actions class
 	 * 
