@@ -52,7 +52,7 @@ public class FWtheory1 {
 	 * 2.TEST LAYER:
 	 * where we maintain the test classes for each individual page
 	 * we will write diff @annotations, @Test for TCs, will see AAA pattern here
-	 * AAA:AssertAct
+	 * AAA:Arrange, Act and Assert
 	 * pre-condition: here is every class has @Test along with assertions
 	 * and the pre-conditions are written in @Before annotation
 	 * post-conditions in @After annotation
