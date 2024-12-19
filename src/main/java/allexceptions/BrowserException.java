@@ -1,8 +1,0 @@
-package allexceptions;
-
-public class BrowserException extends RuntimeException{
-	public BrowserException(String mesg) {
-		super(mesg);
-	}
-
-}
